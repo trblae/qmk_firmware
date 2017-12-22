@@ -13,6 +13,19 @@ extern keymap_config_t keymap_config;
 #define GAMEPAD_LAYER 5
 #define UNDERGLOW_LAYER 6
 
+#ifdef RGBLIGHT_ENABLE
+#define rgblight_set_blue        rgblight_sethsv (0xFF,  0xFF, 0xFF);
+#define rgblight_set_red         rgblight_sethsv (0x00,  0xFF, 0xFF);
+#define rgblight_set_green       rgblight_sethsv (0x78,  0xFF, 0xFF);
+#define rgblight_set_orange      rgblight_sethsv (0x1E,  0xFF, 0xFF);
+#define rgblight_set_teal        rgblight_sethsv (0xC3,  0xFF, 0xFF);
+#define rgblight_set_magenta     rgblight_sethsv (0x12C, 0xFF, 0xFF);
+#define rgblight_set_yellow      rgblight_sethsv (0x3C,  0xFF, 0xFF);
+#define rgblight_set_purple      rgblight_sethsv (0x10E, 0xFF, 0xFF);
+#define rgblight_set_white       rgblight_sethsv (0x00,  0x00, 0xFF);
+#define rgblight_set_off         rgblight_sethsv (0x00,  0x00, 0x00);
+#endif
+
 // Tap Dance
 enum {
   SFT_CAPS = 0,
@@ -31,6 +44,7 @@ enum macro_id {
   M_TENKEY_LAYER,
   M_GAMEPAD_LAYER,
   M_UNDERGLOW_LAYER,
+  M_CLEAR,
 };
 
 #define M_TO0 M(M_QWERTY_LAYER)
@@ -59,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [SPACEFN_LAYER] = KEYMAP( \
-  KC_HYPR, _______,              M(M_USERNAME),   KC_PGUP, LGUI(LSFT(KC_4)),   LGUI(LCTL(LSFT(KC_4))), /**/  KC_PGUP, KC_HOME,          KC_UP,   KC_END,   _______, KC_INS, \
+  KC_HYPR, M(M_CLEAR),           M(M_USERNAME),   KC_PGUP, LGUI(LSFT(KC_4)),   LGUI(LCTL(LSFT(KC_4))), /**/  KC_PGUP, KC_HOME,          KC_UP,   KC_END,   _______, KC_INS, \
   _______, _______,              M(M_RANDDIGIT),  KC_PGDN, _______,            KC_MENU,                /**/  KC_PGDN, KC_LEFT,          KC_DOWN, KC_RGHT,  _______, KC_DELETE, \
   KC_LSFT, _______,              M(M_RANDLETTER), _______, LGUI(LSFT(KC_SPC)), KC_APP,                 /**/  KC_JYEN, LGUI(LSFT(KC_M)), KC_MUTE, KC_VOLD,  KC_VOLU, _______, \
   _______, M(M_UNDERGLOW_LAYER), _______,         _______, _______,            _______,                /**/  KC_CALC, KC_MSEL,          KC_MPLY, KC_MSTP,  KC_MPRV, KC_MNXT \
@@ -67,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [TENKEY_LAYER] = KEYMAP( \
   _______, _______, _______, _______, _______, _______, /**/ KC_PSLS, KC_KP_7, KC_KP_8, KC_KP_9, KC_PMNS, KC_BSPC, \
-  _______, _______, _______, _______, _______, KC_QUOT, /**/ KC_PAST, KC_KP_4, KC_KP_5, KC_KP_6, KC_PPLS, _______, \
+  _______, _______, _______, _______, _______, KC_QUOT, /**/ KC_PAST, KC_KP_4, KC_KP_5, KC_KP_6, KC_PPLS, KC_DEL, \
   _______, _______, _______, _______, _______, KC_COMM, /**/ KC_SCLN, KC_KP_1, KC_KP_2, KC_KP_3, _______, KC_ENT, \
   _______, M_TO0,   _______, _______, _______, _______, /**/ KC_NLCK, KC_KP_0, KC_KP_0, KC_PDOT, _______, _______ \
 ),
@@ -76,14 +90,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q, KC_W, KC_E, KC_R, KC_T, /**/ KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_BSPC, \
   KC_ESC,  KC_A, KC_S, KC_D, KC_F, KC_G, /**/ KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /**/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ENT, \
-  KC_LCTL, _______, _______, KC_LALT, _______, KC_SPC, /**/ M_TO0, _______, KC_1, KC_2, KC_3, KC_4 \
+  KC_LCTL, _______, GUI_T(KC_NO), KC_LALT, KC_2, KC_SPC, /**/ M_TO0, _______, KC_1, KC_2, KC_3, KC_4 \
 ),
 
 [UNDERGLOW_LAYER] = KEYMAP( \
-  _______, RESET,   _______, _______,  _______, _______, /**/ _______, _______, _______, _______, RESET,   _______, \
-  _______, _______, _______, _______,  _______, _______, /**/ _______, _______, _______, _______, _______, _______, \
-  _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD, /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
-  _______, M_TO0,   _______, _______,  _______, _______, /**/ _______, _______, _______, _______, _______, _______ \
+  _______, RESET,   _______, _______,  _______, M(M_CLEAR), /**/ _______, _______, _______, _______, RESET,   _______, \
+  _______, _______, _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______, \
+  _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD,    /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
+  _______, M_TO0,   _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______ \
 ),
 };
 
@@ -162,7 +176,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     if (record->event.pressed) {
       // turn underglow to green for lower layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0xff,0x00,0x00);
+      rgblight_set_green
       #endif
       // activates layer
       layer_on(LOWER_LAYER);
@@ -180,7 +194,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     if (record->event.pressed) {
       // turn underglow to blue for upper layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0x00,0x00,0xff);
+      rgblight_set_blue
       #endif
       layer_on(UPPER_LAYER);
     } else {
@@ -196,22 +210,19 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     if (record->event.pressed) {
       // turn underglow to white for spacefn layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0xff,0xff,0xff);
+      rgblight_set_white
       #endif
       layer_on(SPACEFN_LAYER);
     } else {
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0x00,0x00,0x00);
-      #endif
       layer_off(SPACEFN_LAYER);
     }
     break;
 
   case M_TENKEY_LAYER:
     if (record->event.pressed) {
-      // turn underglow to yellow for tenkey layer
+      // turn underglow to purple for tenkey layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0xff,0xff,0x00);
+      rgblight_set_purple
       #endif
       layer_move(TENKEY_LAYER);
     }
@@ -221,7 +232,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     if (record->event.pressed) {
       // turn underglow to orange for gamepad layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0xff,0x7e,0x00);
+      rgblight_set_orange
       #endif
       layer_move(GAMEPAD_LAYER);
     }
@@ -229,11 +240,20 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
   case M_UNDERGLOW_LAYER:
     if (record->event.pressed) {
-      // turn off color for underglow layer, since it will probably be changed anyway
+      // turn underglow white for underglow layer
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb(0x00,0x00,0x00);
+      rgblight_set_white
       #endif
       layer_move(UNDERGLOW_LAYER);
+    }
+    break;
+
+  case M_CLEAR:
+    if (record->event.pressed) {
+      clear_keyboard();
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_off
+      #endif
     }
     break;
   }
