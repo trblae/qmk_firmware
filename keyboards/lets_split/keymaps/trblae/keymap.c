@@ -12,6 +12,7 @@ extern keymap_config_t keymap_config;
 #define TENKEY_LAYER 4
 #define GAMEPAD_LAYER 5
 #define UNDERGLOW_LAYER 6
+#define GAMEPAD2_LAYER 7
 
 #ifdef RGBLIGHT_ENABLE
 #define rgblight_set_blue        rgblight_sethsv (0xFF,  0xFF, 0xFF);
@@ -90,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q, KC_W, KC_E, KC_R, KC_T, /**/ KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_BSPC, \
   KC_ESC,  KC_A, KC_S, KC_D, KC_F, KC_G, /**/ KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /**/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ENT, \
-  KC_LCTL, _______, GUI_T(KC_NO), KC_LALT, KC_2, KC_SPC, /**/ M_TO0, _______, KC_1, KC_2, KC_3, KC_4 \
+  KC_LCTL, MO(GAMEPAD2_LAYER), GUI_T(KC_NO), KC_LALT, KC_2, KC_SPC, /**/ M_TO0, _______, KC_1, KC_2, KC_3, KC_4 \
 ),
 
 [UNDERGLOW_LAYER] = KEYMAP( \
@@ -98,6 +99,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______, \
   _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD,    /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
   _______, M_TO0,   _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______ \
+),
+
+[GAMEPAD2_LAYER] = KEYMAP( \
+  KC_TAB,  KC_Q, KC_W, KC_E, KC_R, KC_T, /**/ KC_Y, KC_U, KC_I,    KC_O,   KC_P,    KC_BSPC, \
+  KC_ESC,  KC_A, KC_S, KC_D, KC_F, KC_G, /**/ KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
+  KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /**/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ENT, \
+  KC_LCTL, _______, KC_NO, KC_LALT, KC_2, KC_SPC, /**/ KC_5, KC_6, KC_7, KC_8, KC_9, KC_0 \
 ),
 };
 
@@ -154,9 +162,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   case M_RANDLETTER:
     // Generate, based on random number generator, a keystroke for
     // a letter chosen at random
-    // Here, we mix the LCRNG with low bits from one of the system
-    // clocks via XOR in the theory that this may be more random
-    // than either separately
+    // Same random mechanism as above
     random_value = ((random_value + randadd) * randmul) % randmod;
     if (record->event.pressed) {
       rval = (random_value ^ clockbyte) % 26;
@@ -174,38 +180,36 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   // this updates eeprom which only has a limited amount of writes per chip
   case M_LOWER_LAYER:
     if (record->event.pressed) {
-      // turn underglow to green for lower layer
+      // turn underglow to green for lower
       #ifdef RGBLIGHT_ENABLE
       rgblight_set_green
       #endif
-      // activates layer
       layer_on(LOWER_LAYER);
     } else {
       // turn underglow to normal color (none)
       //#ifdef RGBLIGHT_ENABLE
-      //rgblight_setrgb(0x00,0x00,0x00);
+      //rgblight_set_off
       //#endif
-      // revert to normal layer
       layer_off(LOWER_LAYER);
     }
     break;
 
   case M_UPPER_LAYER:
     if (record->event.pressed) {
-      // turn underglow to blue for upper layer
+      // turn underglow to blue for upper
       #ifdef RGBLIGHT_ENABLE
       rgblight_set_blue
       #endif
       layer_on(UPPER_LAYER);
     } else {
       //#ifdef RGBLIGHT_ENABLE
-      //rgblight_setrgb(0x00,0x00,0x00);
+      //rgblight_set_off
       //#endif
       layer_off(UPPER_LAYER);
     }
     break;
 
-  // not currently used right now...
+  // case not currently used right now...
   case M_SPACEFN_LAYER:
     if (record->event.pressed) {
       // turn underglow to white for spacefn layer
