@@ -39,12 +39,6 @@ enum macro_id {
   M_RANDDIGIT,
   M_RANDLETTER,
   M_QWERTY_LAYER,
-  M_LOWER_LAYER,
-  M_UPPER_LAYER,
-  M_SPACEFN_LAYER,
-  M_TENKEY_LAYER,
-  M_GAMEPAD_LAYER,
-  M_UNDERGLOW_LAYER,
   M_CLEAR,
 };
 
@@ -53,31 +47,31 @@ enum macro_id {
 // The '/**/' indicates the split in a Let's Split keyboard.
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [QWERTY_LAYER] = KEYMAP( \
-  KC_TAB,        KC_Q,   KC_W,    KC_E,    KC_R,             KC_T, /**/ KC_Y,   KC_U,             KC_I,            KC_O,    KC_P,    KC_BSPC, \
-  CTL_T(KC_ESC), KC_A,   KC_S,    KC_D,    KC_F,             KC_G, /**/ KC_H,   KC_J,             KC_K,            KC_L,    KC_SCLN, KC_QUOT, \
-  TD(SFT_CAPS),  KC_Z,   KC_X,    KC_C,    KC_V,             KC_B, /**/ KC_N,   KC_M,             KC_COMM,         KC_DOT,  KC_SLSH, RSFT_T(KC_ENT), \
-  KC_LCTL,       KC_MEH, KC_LGUI, KC_LALT, M(M_LOWER_LAYER), F(3), /**/ KC_SPC, M(M_UPPER_LAYER), RGUI_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT \
+  KC_TAB,        KC_Q,   KC_W,    KC_E,    KC_R,            KC_T, /**/ KC_Y,   KC_U,            KC_I,            KC_O,    KC_P,    KC_BSPC, \
+  CTL_T(KC_ESC), KC_A,   KC_S,    KC_D,    KC_F,            KC_G, /**/ KC_H,   KC_J,            KC_K,            KC_L,    KC_SCLN, KC_QUOT, \
+  TD(SFT_CAPS),  KC_Z,   KC_X,    KC_C,    KC_V,            KC_B, /**/ KC_N,   KC_M,            KC_COMM,         KC_DOT,  KC_SLSH, RSFT_T(KC_ENT), \
+  KC_LCTL,       KC_MEH, KC_LGUI, KC_LALT, MO(LOWER_LAYER), F(3), /**/ KC_SPC, MO(UPPER_LAYER), RGUI_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
 [LOWER_LAYER] = KEYMAP( \
-  KC_TILD, KC_EXLM,           KC_AT,   KC_HASH, KC_DLR,  KC_PERC, /**/ KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
-  KC_ESC,  KC_F1,             KC_F2,   KC_F3,   KC_F4,   KC_F5,   /**/ KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  KC_LSFT, KC_F7,             KC_F8,   KC_F9,   KC_F10,  KC_F11,  /**/ KC_F12,  KC_F13,  _______, _______, _______, KC_ENT, \
-  _______, M(M_TENKEY_LAYER), KC_HYPR, _______, _______, _______, /**/ _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END \
+  KC_TILD, KC_EXLM,          KC_AT,   KC_HASH, KC_DLR,  KC_PERC, /**/ KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
+  KC_ESC,  KC_F1,            KC_F2,   KC_F3,   KC_F4,   KC_F5,   /**/ KC_F6,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
+  KC_LSFT, KC_F7,            KC_F8,   KC_F9,   KC_F10,  KC_F11,  /**/ KC_F12,  KC_F13,  _______, _______, _______, KC_ENT, \
+  _______, TG(TENKEY_LAYER), KC_HYPR, _______, _______, _______, /**/ _______, _______, KC_HOME, KC_PGDN, KC_PGUP, KC_END \
 ),
 
 [UPPER_LAYER] = KEYMAP( \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    /**/ KC_6,               KC_7,    KC_8,          KC_9,    KC_0,    _______, \
   _______, KC_4,    KC_5,    KC_6,    KC_DOT,  _______, /**/ _______,            KC_MINS, KC_EQL,        KC_LBRC, KC_RBRC, KC_BSLS, \
   KC_LSFT, KC_7,    KC_8,    KC_9,    KC_0,    _______, /**/ KC_PSCR,            KC_SLCK, KC_PAUS,       KC_DOT,  _______, KC_RSFT, \
-  _______, KC_HYPR, KC_LGUI, _______, _______, _______, /**/ M(M_GAMEPAD_LAYER), _______, TD(MPLY_MUTE), KC_VOLD, KC_VOLU, KC_RCTL \
+  _______, KC_HYPR, KC_LGUI, _______, _______, _______, /**/ TG(GAMEPAD_LAYER), _______, TD(MPLY_MUTE), KC_VOLD, KC_VOLU, KC_RCTL \
 ),
 
 [SPACEFN_LAYER] = KEYMAP( \
-  KC_HYPR, M(M_CLEAR),           M(M_USERNAME),   KC_PGUP, LGUI(LSFT(KC_4)),   LGUI(LCTL(LSFT(KC_4))), /**/  KC_PGUP, KC_HOME,          KC_UP,   KC_END,   _______, KC_INS, \
-  _______, _______,              M(M_RANDDIGIT),  KC_PGDN, _______,            KC_MENU,                /**/  KC_PGDN, KC_LEFT,          KC_DOWN, KC_RGHT,  _______, KC_DELETE, \
-  KC_LSFT, _______,              M(M_RANDLETTER), _______, LGUI(LSFT(KC_SPC)), KC_APP,                 /**/  KC_JYEN, LGUI(LSFT(KC_M)), KC_MUTE, KC_VOLD,  KC_VOLU, _______, \
-  _______, M(M_UNDERGLOW_LAYER), _______,         _______, _______,            _______,                /**/  KC_CALC, KC_MSEL,          KC_MPLY, KC_MSTP,  KC_MPRV, KC_MNXT \
+  KC_HYPR, M(M_CLEAR),          M(M_USERNAME),   KC_PGUP, LGUI(LSFT(KC_4)),   LGUI(LCTL(LSFT(KC_4))), /**/  KC_PGUP, KC_HOME,          KC_UP,   KC_END,   _______, KC_INS, \
+  _______, _______,             M(M_RANDDIGIT),  KC_PGDN, _______,            KC_MENU,                /**/  KC_PGDN, KC_LEFT,          KC_DOWN, KC_RGHT,  _______, KC_DELETE, \
+  KC_LSFT, _______,             M(M_RANDLETTER), _______, LGUI(LSFT(KC_SPC)), KC_APP,                 /**/  KC_JYEN, LGUI(LSFT(KC_M)), KC_MUTE, KC_VOLD,  KC_VOLU, _______, \
+  _______, TG(UNDERGLOW_LAYER), _______,         _______, _______,            _______,                /**/  KC_CALC, KC_MSEL,          KC_MPLY, KC_MSTP,  KC_MPRV, KC_MNXT \
 ),
 
 [TENKEY_LAYER] = KEYMAP( \
@@ -96,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [UNDERGLOW_LAYER] = KEYMAP( \
   _______, RESET,   _______, _______,  _______, M(M_CLEAR), /**/ _______, _______, _______, _______, RESET,   _______, \
-  _______, _______, _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______, \
+  RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW, RGB_M_SN, RGB_M_K,   /**/ RGB_M_X, RGB_M_G, _______, _______, _______, _______, \
   _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD,    /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
   _______, M_TO0,   _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______ \
 ),
@@ -177,81 +171,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     }
     break;
 
-  // this updates eeprom which only has a limited amount of writes per chip
-  case M_LOWER_LAYER:
-    if (record->event.pressed) {
-      // turn underglow to green for lower
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_green
-      #endif
-      layer_on(LOWER_LAYER);
-    } else {
-      // turn underglow to normal color (none)
-      //#ifdef RGBLIGHT_ENABLE
-      //rgblight_set_off
-      //#endif
-      layer_off(LOWER_LAYER);
-    }
-    break;
-
-  case M_UPPER_LAYER:
-    if (record->event.pressed) {
-      // turn underglow to blue for upper
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_blue
-      #endif
-      layer_on(UPPER_LAYER);
-    } else {
-      //#ifdef RGBLIGHT_ENABLE
-      //rgblight_set_off
-      //#endif
-      layer_off(UPPER_LAYER);
-    }
-    break;
-
-  // case not currently used right now...
-  case M_SPACEFN_LAYER:
-    if (record->event.pressed) {
-      // turn underglow to white for spacefn layer
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_white
-      #endif
-      layer_on(SPACEFN_LAYER);
-    } else {
-      layer_off(SPACEFN_LAYER);
-    }
-    break;
-
-  case M_TENKEY_LAYER:
-    if (record->event.pressed) {
-      // turn underglow to purple for tenkey layer
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_purple
-      #endif
-      layer_move(TENKEY_LAYER);
-    }
-    break;
-
-  case M_GAMEPAD_LAYER:
-    if (record->event.pressed) {
-      // turn underglow to orange for gamepad layer
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_orange
-      #endif
-      layer_move(GAMEPAD_LAYER);
-    }
-    break;
-
-  case M_UNDERGLOW_LAYER:
-    if (record->event.pressed) {
-      // turn underglow white for underglow layer
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_white
-      #endif
-      layer_move(UNDERGLOW_LAYER);
-    }
-    break;
-
   case M_CLEAR:
     if (record->event.pressed) {
       clear_keyboard();
@@ -263,4 +182,61 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   }
 
   return MACRO_NONE;
+};
+
+// Runs just one time when the keyboard initializes.
+void matrix_init_user(void) {
+  #ifdef RGBLIGHT_ENABLE
+  rgblight_set_white
+  #endif
+};
+
+// Runs whenever there is a layer state change.
+uint32_t layer_state_set_user(uint32_t state) {
+  uint8_t layer = biton32(state);
+  switch (layer) {
+    case QWERTY_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_red
+      #endif
+      break;
+    case LOWER_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_green
+      #endif
+      break;
+    case UPPER_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_blue
+      #endif
+      break;
+    case SPACEFN_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_magenta
+      #endif
+      break;
+    case TENKEY_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_purple
+      #endif
+      break;
+    case GAMEPAD_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_orange
+      #endif
+      break;
+    case UNDERGLOW_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_teal
+      #endif
+      break;
+    case GAMEPAD2_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_orange
+      #endif
+      break;
+    default:
+      break;
+  }
+  return state;
 };
