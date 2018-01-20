@@ -13,6 +13,7 @@ extern keymap_config_t keymap_config;
 #define GAMEPAD_LAYER 5
 #define UNDERGLOW_LAYER 6
 #define GAMEPAD2_LAYER 7
+#define MOVE_LAYER 8
 
 #ifdef RGBLIGHT_ENABLE
 #define rgblight_set_blue        rgblight_sethsv (0xFF,  0xFF, 0xFF);
@@ -64,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    /**/ KC_6,               KC_7,    KC_8,          KC_9,    KC_0,    _______, \
   _______, KC_4,    KC_5,    KC_6,    KC_DOT,  _______, /**/ _______,            KC_MINS, KC_EQL,        KC_LBRC, KC_RBRC, KC_BSLS, \
   KC_LSFT, KC_7,    KC_8,    KC_9,    KC_0,    _______, /**/ KC_PSCR,            KC_SLCK, KC_PAUS,       KC_DOT,  _______, KC_RSFT, \
-  _______, KC_HYPR, KC_LGUI, _______, _______, _______, /**/ TG(GAMEPAD_LAYER), _______, TD(MPLY_MUTE), KC_VOLD, KC_VOLU, KC_RCTL \
+  _______, KC_HYPR, KC_LGUI, _______, _______, TG(MOVE_LAYER), /**/ TG(GAMEPAD_LAYER), _______, TD(MPLY_MUTE), KC_VOLD, KC_VOLU, KC_RCTL \
 ),
 
 [SPACEFN_LAYER] = KEYMAP( \
@@ -100,6 +101,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,  KC_A, KC_S, KC_D, KC_F, KC_G, /**/ KC_H, KC_J, KC_K,    KC_L,   KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z, KC_X, KC_C, KC_V, KC_B, /**/ KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ENT, \
   KC_LCTL, _______, KC_NO, KC_LALT, KC_2, KC_SPC, /**/ KC_5, KC_6, KC_7, KC_8, KC_9, KC_0 \
+),
+
+[MOVE_LAYER] = KEYMAP( \
+  _______, _______, _______, _______, _______, _______, /**/ KC_PSCR, KC_SLCK, KC_PAUS, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, /**/ KC_INS,  KC_HOME, KC_PGUP, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, /**/ KC_DEL,  KC_END,  KC_PGDN, _______, KC_UP,   _______, \
+  _______, _______, _______, _______, _______, M_TO0,   /**/ _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT \
 ),
 };
 
@@ -233,6 +241,11 @@ uint32_t layer_state_set_user(uint32_t state) {
     case GAMEPAD2_LAYER:
       #ifdef RGBLIGHT_ENABLE
       rgblight_set_orange
+      #endif
+      break;
+    case MOVE_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      rgblight_set_yellow
       #endif
       break;
     default:
