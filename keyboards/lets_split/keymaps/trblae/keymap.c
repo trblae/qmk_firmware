@@ -22,6 +22,7 @@ extern keymap_config_t keymap_config;
 #define rgblight_set_orange      rgblight_sethsv (0x1E,  0xFF, 0xFF);
 #define rgblight_set_teal        rgblight_sethsv (0xC3,  0xFF, 0xFF);
 #define rgblight_set_magenta     rgblight_sethsv (0x12C, 0xFF, 0xFF);
+#define rgblight_set_pink        rgblight_sethsv (0x12C, 0x73, 0xFF);
 #define rgblight_set_yellow      rgblight_sethsv (0x3C,  0xFF, 0xFF);
 #define rgblight_set_purple      rgblight_sethsv (0x10E, 0xFF, 0xFF);
 #define rgblight_set_white       rgblight_sethsv (0x00,  0x00, 0xFF);
@@ -225,7 +226,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       break;
     case TENKEY_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_purple
+      rgblight_set_green
       #endif
       break;
     case UNDERGLOW_LAYER:
@@ -236,7 +237,7 @@ uint32_t layer_state_set_user(uint32_t state) {
     case GAMEPAD_LAYER:
     case GAMEPAD2_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_green
+      rgblight_set_pink
       #endif
       break;
     case MOVE_LAYER:
