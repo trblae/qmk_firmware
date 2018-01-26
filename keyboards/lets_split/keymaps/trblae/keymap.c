@@ -210,12 +210,12 @@ uint32_t layer_state_set_user(uint32_t state) {
       break;
     case LOWER_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_green
+      rgblight_set_blue
       #endif
       break;
     case UPPER_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_blue
+      rgblight_set_orange
       #endif
       break;
     case SPACEFN_LAYER:
@@ -228,19 +228,15 @@ uint32_t layer_state_set_user(uint32_t state) {
       rgblight_set_purple
       #endif
       break;
-    case GAMEPAD_LAYER:
-      #ifdef RGBLIGHT_ENABLE
-      rgblight_set_orange
-      #endif
-      break;
     case UNDERGLOW_LAYER:
       #ifdef RGBLIGHT_ENABLE
       rgblight_set_teal
       #endif
       break;
+    case GAMEPAD_LAYER:
     case GAMEPAD2_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_orange
+      rgblight_set_green
       #endif
       break;
     case MOVE_LAYER:
