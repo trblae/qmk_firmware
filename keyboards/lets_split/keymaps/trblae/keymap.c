@@ -31,8 +31,8 @@ extern keymap_config_t keymap_config;
 
 // Tap Dance
 enum {
-  SFT_CAPS = 0,
-  MPLY_MUTE,
+  MPLY_MUTE = 0,
+  SFT_CAPS,
 };
 
 // Macros
@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [QWERTY_LAYER] = KEYMAP( \
   KC_TAB,        KC_Q,   KC_W,    KC_E,    KC_R,            KC_T, /**/ KC_Y,   KC_U,            KC_I,            KC_O,    KC_P,    KC_BSPC, \
   CTL_T(KC_ESC), KC_A,   KC_S,    KC_D,    KC_F,            KC_G, /**/ KC_H,   KC_J,            KC_K,            KC_L,    KC_SCLN, KC_QUOT, \
-  TD(SFT_CAPS),  KC_Z,   KC_X,    KC_C,    KC_V,            KC_B, /**/ KC_N,   KC_M,            KC_COMM,         KC_DOT,  KC_SLSH, RSFT_T(KC_ENT), \
+  KC_LSFT,       KC_Z,   KC_X,    KC_C,    KC_V,            KC_B, /**/ KC_N,   KC_M,            KC_COMM,         KC_DOT,  KC_SLSH, RSFT_T(KC_ENT), \
   KC_LCTL,       KC_MEH, KC_LGUI, KC_LALT, MO(LOWER_LAYER), F(3), /**/ KC_SPC, MO(UPPER_LAYER), RGUI_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [SPACEFN_LAYER] = KEYMAP( \
   KC_HYPR, M(M_CLEAR),          M(M_USERNAME),   KC_PGUP, LGUI(LSFT(KC_4)),   LGUI(LCTL(LSFT(KC_4))), /**/  KC_PGUP, KC_HOME,          KC_UP,   KC_END,   _______, KC_INS, \
   _______, _______,             M(M_RANDDIGIT),  KC_PGDN, _______,            KC_MENU,                /**/  KC_PGDN, KC_LEFT,          KC_DOWN, KC_RGHT,  _______, KC_DELETE, \
-  KC_LSFT, _______,             M(M_RANDLETTER), _______, LGUI(LSFT(KC_SPC)), KC_APP,                 /**/  KC_JYEN, LGUI(LSFT(KC_M)), KC_MUTE, KC_VOLD,  KC_VOLU, _______, \
+  KC_CAPS, _______,             M(M_RANDLETTER), _______, LGUI(LSFT(KC_SPC)), KC_APP,                 /**/  KC_JYEN, LGUI(LSFT(KC_M)), KC_MUTE, KC_VOLD,  KC_VOLU, _______, \
   _______, TG(UNDERGLOW_LAYER), _______,         _______, _______,            _______,                /**/  KC_CALC, KC_MSEL,          KC_MPLY, KC_MSTP,  KC_MPRV, KC_MNXT \
 ),
 
@@ -91,10 +91,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [UNDERGLOW_LAYER] = KEYMAP( \
-  _______, RESET,   _______, _______,  _______, M(M_CLEAR), /**/ _______, _______, _______, _______, RESET,   _______, \
-  RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW, RGB_M_SN, RGB_M_K,   /**/ RGB_M_X, RGB_M_G, _______, _______, _______, _______, \
-  _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD,    /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
-  _______, M_TO0,   _______, _______,  _______, _______,    /**/ _______, _______, _______, _______, _______, _______ \
+  _______, RESET,   _______, _______,  _______,  M(M_CLEAR), /**/ _______, _______, _______, _______, RESET,   _______, \
+  RGB_M_P, RGB_M_B, RGB_M_R, RGB_M_SW, RGB_M_SN, RGB_M_K,    /**/ RGB_M_X, RGB_M_G, _______, _______, _______, _______, \
+  _______, RGB_TOG, RGB_MOD, RGB_RMOD, RGB_HUI,  RGB_HUD,    /**/ RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______, \
+  _______, M_TO0,   _______, _______,  _______,  _______,    /**/ _______, _______, _______, _______, _______, _______ \
 ),
 
 [GAMEPAD2_LAYER] = KEYMAP( \
@@ -126,8 +126,8 @@ const uint16_t PROGMEM fn_actions[] = {
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [SFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
   [MPLY_MUTE] = ACTION_TAP_DANCE_DOUBLE(KC_MPLY, KC_MUTE),
+  [SFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
 };
 
 // This bit of logic seeds a wee linear congruential random number generator
@@ -193,13 +193,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   return MACRO_NONE;
 };
 
-// Runs just one time when the keyboard initializes.
-void matrix_init_user(void) {
-  #ifdef RGBLIGHT_ENABLE
-  rgblight_set_white
-  #endif
-};
-
 // Runs whenever there is a layer state change.
 uint32_t layer_state_set_user(uint32_t state) {
   uint8_t layer = biton32(state);
@@ -235,9 +228,16 @@ uint32_t layer_state_set_user(uint32_t state) {
       #endif
       break;
     case GAMEPAD_LAYER:
+      #ifdef RGBLIGHT_ENABLE
+      // solid
+      rgblight_mode(1);
+      rgblight_set_pink
+      #endif
+      break;
     case GAMEPAD2_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_pink
+      // knight rider mode #2
+      rgblight_mode(22);
       #endif
       break;
     case MOVE_LAYER:
