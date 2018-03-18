@@ -1,0 +1,1 @@
+# The default keymap for single_switch
