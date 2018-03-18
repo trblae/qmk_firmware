@@ -18,6 +18,7 @@
 
 #ifdef RGBLIGHT_ENABLE
 #define rgblight_set_blue        rgblight_sethsv (0xFF,  0xFF, 0xFF);
+#define rgblight_set_red         rgblight_sethsv (0x00,  0xFF, 0xFF);
 #define rgblight_set_white       rgblight_sethsv (0x00,  0x00, 0xFF);
 #define rgblight_set_purple      rgblight_sethsv (0x10E, 0xFF, 0xFF);
 #define rgblight_set_off         rgblight_sethsv (0x00,  0x00, 0x00);
@@ -125,12 +126,16 @@ uint32_t layer_state_set_user(uint32_t state) {
   switch (layer) {
     case LOCK:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_set_white
+      // knight rider mode #2
+      rgblight_mode(22);
+      rgblight_set_red
       #endif
       break;
     case BASE:
     default:
       #ifdef RGBLIGHT_ENABLE
+      // solid
+      rgblight_mode(1);
       rgblight_set_blue
       #endif
       break;
