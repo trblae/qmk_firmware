@@ -47,6 +47,9 @@ void base_each(qk_tap_dance_state_t *state, void *user_data) {
 // or if interrupted, e.g., by another key press
 void base_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
+    case 1:
+      register_code(KC_ENT);
+      break;
     case 2:
       break;
     default:
