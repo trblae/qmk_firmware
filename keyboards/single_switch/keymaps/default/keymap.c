@@ -28,77 +28,92 @@ enum layers {
   LOCK
 };
 
-enum tap_dance {
-  BASETD = 0,
-  LOCKTD
-};
-
 // two layers for single switch/key keyboard
 // 1. base layer - single tap is enter, double tap is switch to layer 2
 // 2. func layer - single tap win+L, double tab is switch to layer 1
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [BASE] = KEYMAP(TD(BASETD)),
-  [LOCK] = KEYMAP(TD(LOCKTD))
+  [BASE] = KEYMAP(TD(BASE)),
+  [LOCK] = KEYMAP(TD(LOCK))
 };
 
-
+// tap dance, run this function on each tap
 void base_each(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count > 2) {
+    register_code(KC_ENT);
+    unregister_code(KC_ENT);
+  }
 }
+// tap dance, run this funciton when sequence is finished (timeout)
+// or if interrupted, e.g., by another key press
 void base_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 2:
-        break;
+      break;
     default:
-        register_code(KC_ENT);
-        break;
+      register_code(KC_ENT);
+      unregister_code(KC_ENT);
+      register_code(KC_ENT);
+      unregister_code(KC_ENT);
+      register_code(KC_ENT);
+      break;
   }
 }
+// tap dance, run this function when resetting (on key up)
 void base_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 2:
-        layer_on(LOCK);
-        break;
+      layer_on(LOCK);
+      break;
     default:
-        unregister_code(KC_ENT);
-        break;
+      unregister_code(KC_ENT);
+      break;
   }
 }
 
 void lock_each(qk_tap_dance_state_t *state, void *user_data) {
-  switch (state->count) {
-    case 2:
-        break;
-    default:
-        register_code(KC_LGUI);
-        register_code(KC_L);
-        break;
+  if (state->count > 2) {
+    register_code(KC_LGUI);
+    register_code(KC_L);
+    unregister_code(KC_L);
+    unregister_code(KC_LGUI);
   }
 }
 void lock_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
+    case 1:
+      register_code(KC_LGUI);
+      register_code(KC_L);
     case 2:
-        break;
+      break;
     default:
-        register_code(KC_LGUI);
-        register_code(KC_L);
-        break;
+      register_code(KC_LGUI);
+      register_code(KC_L);
+      unregister_code(KC_L);
+      unregister_code(KC_LGUI);
+      register_code(KC_LGUI);
+      register_code(KC_L);
+      unregister_code(KC_L);
+      unregister_code(KC_LGUI);
+      register_code(KC_LGUI);
+      register_code(KC_L);
+      break;
   }
 }
 void lock_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 2:
-        layer_on(BASE);
-        break;
+      layer_off(LOCK);
+      break;
     default:
-        unregister_code(KC_L);
-        unregister_code(KC_LGUI);
-        break;
+      unregister_code(KC_L);
+      unregister_code(KC_LGUI);
+      break;
   }
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [BASETD] = ACTION_TAP_DANCE_FN_ADVANCED (base_each, base_finished, base_reset),
-  [LOCKTD] = ACTION_TAP_DANCE_FN_ADVANCED (lock_each, lock_finished, lock_reset)
+  [BASE] = ACTION_TAP_DANCE_FN_ADVANCED(base_each, base_finished, base_reset),
+  [LOCK] = ACTION_TAP_DANCE_FN_ADVANCED(lock_each, lock_finished, lock_reset)
 };
 
 // Runs whenever there is a layer state change.
