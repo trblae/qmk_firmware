@@ -84,7 +84,6 @@ void lock_finished(qk_tap_dance_state_t *state, void *user_data) {
         break;
   }
 }
-}
 void lock_reset(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 2:
