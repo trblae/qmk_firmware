@@ -49,7 +49,13 @@ void base_each(qk_tap_dance_state_t *state, void *user_data) {
 void base_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 1:
-      register_code(KC_ENT);
+      if (state->pressed == 1) {
+        register_code(KC_LGUI);
+        register_code(KC_L);
+        layer_on(LOCK);
+      } else {
+        register_code(KC_ENT);
+      }
       break;
     case 2:
       break;
@@ -69,7 +75,13 @@ void base_reset(qk_tap_dance_state_t *state, void *user_data) {
       layer_on(LOCK);
       break;
     default:
-      unregister_code(KC_ENT);
+      if (state->pressed == 1) {
+        unregister_code(KC_L);
+        unregister_code(KC_LGUI);
+        layer_off(LOCK);
+      } else {
+        unregister_code(KC_ENT);
+      }
       break;
   }
 }
@@ -126,8 +138,8 @@ uint32_t layer_state_set_user(uint32_t state) {
   switch (layer) {
     case LOCK:
       #ifdef RGBLIGHT_ENABLE
-      // knight rider mode #2
-      rgblight_mode(22);
+      // knight rider mode #1
+      rgblight_mode(21);
       rgblight_set_red
       #endif
       break;
@@ -136,7 +148,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       #ifdef RGBLIGHT_ENABLE
       // solid
       rgblight_mode(1);
-      rgblight_set_blue
+      rgblight_set_white
       #endif
       break;
   }
