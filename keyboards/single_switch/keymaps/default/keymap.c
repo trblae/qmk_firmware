@@ -49,10 +49,11 @@ void base_each(qk_tap_dance_state_t *state, void *user_data) {
 void base_finished(qk_tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
     case 1:
-      if (state->pressed == 1) {
+      if (!state->interrupted && state->pressed == 1) {
         register_code(KC_LGUI);
         register_code(KC_L);
-        layer_on(LOCK);
+        unregister_code(KC_L);
+        unregister_code(KC_LGUI);
       } else {
         register_code(KC_ENT);
       }
@@ -75,11 +76,7 @@ void base_reset(qk_tap_dance_state_t *state, void *user_data) {
       layer_on(LOCK);
       break;
     default:
-      if (state->pressed == 1) {
-        unregister_code(KC_L);
-        unregister_code(KC_LGUI);
-        layer_off(LOCK);
-      } else {
+      if (state->pressed != 1) {
         unregister_code(KC_ENT);
       }
       break;
