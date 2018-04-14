@@ -6,7 +6,6 @@
 #define USE_SERIAL
 #define EE_HANDS
 
-#define FORCE_NKRO
 #define PREVENT_STUCK_MODIFIERS
 #define TAPPING_TERM 200
 
