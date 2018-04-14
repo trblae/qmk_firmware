@@ -3,17 +3,19 @@
 
 #include "../../rev2/config.h"
 
-#undef RGBLED_NUM
+#define USE_SERIAL
+#define EE_HANDS
 
+#define FORCE_NKRO
+#define PREVENT_STUCK_MODIFIERS
 #define TAPPING_TERM 200
-#define RGBLIGHT_ANIMATIONS
+
+#undef RGBLED_NUM
 #define RGBLED_NUM 10
+#define RGBLIGHT_ANIMATIONS
 #define RGBLIGHT_HUE_STEP 10
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
-
-#define USE_SERIAL
-#define EE_HANDS
 
 #define randadd 53
 #define randmul 181
