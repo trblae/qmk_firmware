@@ -194,7 +194,8 @@ uint32_t layer_state_set_user(uint32_t state) {
       break;
     case RAISE_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb_orange();
+      // more orange than default
+      rgblight_sethsv(30, 255, 255);
       #endif
       break;
     case SPACEFN_LAYER:
@@ -216,7 +217,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       #ifdef RGBLIGHT_ENABLE
       // solid
       rgblight_mode(1);
-      rgblight_setrgb_pink();
+      rgblight_sethsv_pink();
       #endif
       break;
     case GAMEPAD2_LAYER:
@@ -227,7 +228,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       break;
     case MOVE_LAYER:
       #ifdef RGBLIGHT_ENABLE
-      rgblight_setrgb_yellow();
+      rgblight_setrgb_gold();
       #endif
       break;
     default:
