@@ -33,8 +33,8 @@ enum layers {
 // 1. base layer - single tap is enter, double tap is switch to layer 2
 // 2. func layer - single tap win+L, double tab is switch to layer 1
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [BASE] = KEYMAP(TD(BASE)),
-  [LOCK] = KEYMAP(TD(LOCK))
+  [BASE] = LAYOUT(TD(BASE)),
+  [LOCK] = LAYOUT(TD(LOCK))
 };
 
 // tap dance, run this function on each tap

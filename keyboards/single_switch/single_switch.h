@@ -18,8 +18,8 @@
 
 #include "quantum.h"
 
-#define KEYMAP( k00 ) { \
-    { k00 } \
+#define LAYOUT( L00 ) { \
+    { L00 } \
 }
 
 #endif
