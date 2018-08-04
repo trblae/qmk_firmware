@@ -195,7 +195,7 @@ uint32_t layer_state_set_user(uint32_t state) {
     case RAISE_LAYER:
       #ifdef RGBLIGHT_ENABLE
       // more orange than default
-      rgblight_sethsv(30, 255, 255);
+      rgblight_sethsv(20, 255, 255);
       #endif
       break;
     case SPACEFN_LAYER:
