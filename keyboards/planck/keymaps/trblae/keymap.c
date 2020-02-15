@@ -273,18 +273,38 @@ void encoder_update(bool clockwise) {
       }
     }
   } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
+    if (IS_LAYER_ON(_RAISE)) {
+      if (clockwise) {
+          tap_code(KC_VOLU);
+      } else {
+          tap_code(KC_VOLD);
+      }
+    } else if (IS_LAYER_ON(_LOWER)) {
+      if (clockwise) {
+          tap_code(KC_UP);
+      } else {
+          tap_code(KC_DOWN);
+      }
+    } else if (IS_LAYER_ON(_ADJUST)) {
+      if (clockwise) {
+          tap_code(KC_PPLS);
+      } else {
+          tap_code(KC_PMNS);
+      }
     } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
+      if (clockwise) {
+        #ifdef MOUSEKEY_ENABLE
+          tap_code(KC_MS_WH_UP);
+        #else
+          tap_code(KC_PGUP);
+        #endif
+      } else {
+        #ifdef MOUSEKEY_ENABLE
+          tap_code(KC_MS_WH_DOWN);
+        #else
+          tap_code(KC_PGDN);
+        #endif
+      }
     }
   }
 }
